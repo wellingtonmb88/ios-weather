@@ -13,13 +13,13 @@ import CoreData
 class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var saveCity: UIButton!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     var annotations:[MKAnnotation] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        saveCity.isHidden = true
+        saveButton.isEnabled = false
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(addAnnotation))
         lpgr.minimumPressDuration = 0.5
         lpgr.delaysTouchesBegan = true
@@ -27,13 +27,12 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         self.mapView.addGestureRecognizer(lpgr)
     }
     
-    @IBAction func saveCity(_ sender: UIButton) {
+    @IBAction func saveCity(_ sender: Any) {
         save()
         self.mapView.removeAnnotations(annotations)
         annotations = []
-        saveCity.isHidden = true
+        saveButton.isEnabled = false
     }
-    
     
     func save() {
         
@@ -93,7 +92,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 annotation.subtitle = country
                 self.mapView.addAnnotation(annotation)
                 self.annotations.append(annotation)
-                self.saveCity.isHidden = false
+                self.saveButton.isEnabled = true
             })
             
         }
