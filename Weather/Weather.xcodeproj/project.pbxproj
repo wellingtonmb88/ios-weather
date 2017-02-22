@@ -15,6 +15,8 @@
 		131C70BC1E57B1E000438175 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 131C70BA1E57B1E000438175 /* LaunchScreen.storyboard */; };
 		1327E85E1E58B3370038D14E /* CitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1327E85D1E58B3370038D14E /* CitiesTableViewController.swift */; };
 		1327E8601E58B3C40038D14E /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1327E85F1E58B3C40038D14E /* ForecastViewController.swift */; };
+		133A20F01E5BD06100DC61A0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133A20EF1E5BD06100DC61A0 /* MapKit.framework */; };
+		13F39E9E1E5D0A10002E31DD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13F39E9D1E5D0A0F002E31DD /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		131C70BD1E57B1E000438175 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1327E85D1E58B3370038D14E /* CitiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitiesTableViewController.swift; sourceTree = "<group>"; };
 		1327E85F1E58B3C40038D14E /* ForecastViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
+		133A20EF1E5BD06100DC61A0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		13F39E9D1E5D0A0F002E31DD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +39,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13F39E9E1E5D0A10002E31DD /* CoreData.framework in Frameworks */,
+				133A20F01E5BD06100DC61A0 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +52,7 @@
 			children = (
 				131C70AD1E57B1E000438175 /* Weather */,
 				131C70AC1E57B1E000438175 /* Products */,
+				133A20EE1E5BD06100DC61A0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +78,15 @@
 				1327E85F1E58B3C40038D14E /* ForecastViewController.swift */,
 			);
 			path = Weather;
+			sourceTree = "<group>";
+		};
+		133A20EE1E5BD06100DC61A0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				13F39E9D1E5D0A0F002E31DD /* CoreData.framework */,
+				133A20EF1E5BD06100DC61A0 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

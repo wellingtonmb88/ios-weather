@@ -13,80 +13,37 @@
         <scene sceneID="qXz-zu-FM2">
             <objects>
                 <tableViewController id="xXI-Iy-bT2" customClass="CitiesTableViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EJK-o8-PfK">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EJK-o8-PfK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <sections>
-                            <tableViewSection id="V6k-ng-yTi">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cityIdentifier1" id="nrl-hB-7PR">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nrl-hB-7PR" id="KS4-Dn-WPn">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="City Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7A1-AA-S0L">
-                                                    <rect key="frame" x="166" y="0.0" width="80" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="W4E-2H-RKe" kind="show" id="r1q-OJ-0BK"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cityIdentifier" id="66g-0J-W9h">
-                                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="66g-0J-W9h" id="DEd-kr-1FD">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="City Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kCn-Mg-9Lv">
-                                                    <rect key="frame" x="166" y="0.0" width="80" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cityIdentifier" id="Qpa-LT-Lz6">
-                                        <rect key="frame" x="0.0" y="88" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qpa-LT-Lz6" id="Qx4-Pk-DFE">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="City Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6P1-CP-quk">
-                                                    <rect key="frame" x="166" y="0.0" width="80" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cityCellIdentifier" id="66g-0J-W9h">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="66g-0J-W9h" id="DEd-kr-1FD">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="W4E-2H-RKe" kind="show" id="IUE-DE-I7U"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="xXI-Iy-bT2" id="GYJ-90-AD0"/>
                             <outlet property="delegate" destination="xXI-Iy-bT2" id="zwp-HI-JfS"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Cities" id="IkA-oI-Hlb"/>
+                    <connections>
+                        <outlet property="cityTableView" destination="EJK-o8-PfK" id="U9D-64-rjo"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="khu-BJ-okS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="972" y="-450"/>
+            <point key="canvasLocation" x="972" y="-450.22488755622192"/>
         </scene>
         <!--Map-->
         <scene sceneID="Ru3-8v-czA">
@@ -100,9 +57,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="satellite" translatesAutoresizingMaskIntoConstraints="NO" id="hyG-vH-6aM">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="hyG-vH-6aM">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ipX-OC-6nm">
+                                <rect key="frame" x="247" y="28" width="112" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="20"/>
+                                <state key="normal" title="Save City">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveCity:" destination="t4d-JQ-Ahz" eventType="touchUpInside" id="UXz-Mg-TaE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -115,6 +83,7 @@
                     <tabBarItem key="tabBarItem" title="Map" id="rNl-sC-xYn"/>
                     <connections>
                         <outlet property="mapView" destination="hyG-vH-6aM" id="Iux-MR-Vdb"/>
+                        <outlet property="saveCity" destination="ipX-OC-6nm" id="eOB-bu-uXA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bL0-8d-hLp" userLabel="First Responder" sceneMemberID="firstResponder"/>
