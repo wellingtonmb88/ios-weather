@@ -10,5 +10,8 @@ import Foundation
 import UIKit
 
 class ForecastViewController: UIViewController {
+ 
+    override func viewDidLoad() {
+    }
     
 }

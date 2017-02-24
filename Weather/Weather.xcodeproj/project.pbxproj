@@ -69,6 +69,7 @@
 		131C70AD1E57B1E000438175 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
+				131EEBE71E60EE9A00723168 /* model */,
 				131C70AE1E57B1E000438175 /* AppDelegate.swift */,
 				131C70B01E57B1E000438175 /* MapViewController.swift */,
 				131C70B21E57B1E000438175 /* Main.storyboard */,
@@ -81,6 +82,21 @@
 				136986611E5E77D5008E2FEA /* LocationSearchTable.swift */,
 			);
 			path = Weather;
+			sourceTree = "<group>";
+		};
+		131EEBE71E60EE9A00723168 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				131EEBE81E60EEA600723168 /* entity */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		131EEBE81E60EEA600723168 /* entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = entity;
 			sourceTree = "<group>";
 		};
 		133A20EE1E5BD06100DC61A0 /* Frameworks */ = {

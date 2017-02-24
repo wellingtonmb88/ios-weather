@@ -21,9 +21,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var annotations:[MKAnnotation] = []
     
-    var resultSearchController:UISearchController? = nil
+    var resultSearchController:UISearchController?
     
-    var selectedPin:MKPlacemark? = nil
+    var selectedPin:MKPlacemark?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,10 +54,16 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func saveCity(_ sender: Any) {
+        let cityName: String = annotations[0].title! ?? ""
+        let alert = UIAlertController(title: "Niceeee!", message: "\(cityName) saved successfully!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default) {[weak self] action  in
+            let _ = self?.navigationController?.popViewController(animated: true)
+        })
         save()
         self.mapView.removeAnnotations(annotations)
         annotations = []
         saveButton.isEnabled = false
+        self.present(alert, animated: true)
     }
     
     func save() {
