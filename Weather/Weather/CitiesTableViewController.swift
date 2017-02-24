@@ -24,31 +24,54 @@ class CitiesTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "CityEntity")
         
         do {
-            cities = try managedContext.fetch(fetchRequest)
+            cities = try getContext().fetch(fetchRequest)
             cityTableView.reloadData()
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+    }
+    
+    func delete(city: NSManagedObject) {
+        let moc = getContext()
+        moc.delete(city)
+        do {
+            try moc.save()
+            print("saved!")
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+    }
+    
+    func getContext () -> NSManagedObjectContext {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.persistentContainer.viewContext
     }
 }
 
 // MARK: - UITableViewDataSource
 extension CitiesTableViewController {
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cities.count
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle,
+                                                        forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            self.delete(city: self.cities[indexPath.row])
+            self.cities.remove(at: indexPath.row)
+            self.tableView.beginUpdates()
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.tableView.endUpdates()
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)-> UITableViewCell {
@@ -61,5 +84,9 @@ extension CitiesTableViewController {
         cell.textLabel?.text = "\(cityName!) - \(cityCountry!)"
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "forecastSegue", sender: nil)
     }
 }
