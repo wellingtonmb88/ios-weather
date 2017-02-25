@@ -13,6 +13,9 @@
 		131C70B71E57B1E000438175 /* Weather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 131C70B51E57B1E000438175 /* Weather.xcdatamodeld */; };
 		131C70B91E57B1E000438175 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 131C70B81E57B1E000438175 /* Assets.xcassets */; };
 		131C70BC1E57B1E000438175 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 131C70BA1E57B1E000438175 /* LaunchScreen.storyboard */; };
+		131EEBEB1E60F9D600723168 /* WeatherApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131EEBEA1E60F9D600723168 /* WeatherApi.swift */; };
+		131EEBF11E60FFAE00723168 /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131EEBF01E60FFAE00723168 /* Forecast.swift */; };
+		131EEBF31E61045000723168 /* NetworkPovider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131EEBF21E61045000723168 /* NetworkPovider.swift */; };
 		1327E85E1E58B3370038D14E /* CitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1327E85D1E58B3370038D14E /* CitiesTableViewController.swift */; };
 		1327E8601E58B3C40038D14E /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1327E85F1E58B3C40038D14E /* ForecastViewController.swift */; };
 		133A20F01E5BD06100DC61A0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133A20EF1E5BD06100DC61A0 /* MapKit.framework */; };
@@ -29,6 +32,9 @@
 		131C70B81E57B1E000438175 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		131C70BB1E57B1E000438175 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		131C70BD1E57B1E000438175 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		131EEBEA1E60F9D600723168 /* WeatherApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherApi.swift; sourceTree = "<group>"; };
+		131EEBF01E60FFAE00723168 /* Forecast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
+		131EEBF21E61045000723168 /* NetworkPovider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkPovider.swift; sourceTree = "<group>"; };
 		1327E85D1E58B3370038D14E /* CitiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitiesTableViewController.swift; sourceTree = "<group>"; };
 		1327E85F1E58B3C40038D14E /* ForecastViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		133A20EF1E5BD06100DC61A0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -87,16 +93,27 @@
 		131EEBE71E60EE9A00723168 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				131EEBE81E60EEA600723168 /* entity */,
+				131EEBE91E60F9BE00723168 /* Remote */,
+				131EEBE81E60EEA600723168 /* Entity */,
 			);
 			name = model;
 			sourceTree = "<group>";
 		};
-		131EEBE81E60EEA600723168 /* entity */ = {
+		131EEBE81E60EEA600723168 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				131EEBF01E60FFAE00723168 /* Forecast.swift */,
 			);
-			name = entity;
+			name = Entity;
+			sourceTree = "<group>";
+		};
+		131EEBE91E60F9BE00723168 /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				131EEBEA1E60F9D600723168 /* WeatherApi.swift */,
+				131EEBF21E61045000723168 /* NetworkPovider.swift */,
+			);
+			name = Remote;
 			sourceTree = "<group>";
 		};
 		133A20EE1E5BD06100DC61A0 /* Frameworks */ = {
@@ -183,9 +200,12 @@
 			files = (
 				131C70B71E57B1E000438175 /* Weather.xcdatamodeld in Sources */,
 				131C70B11E57B1E000438175 /* MapViewController.swift in Sources */,
+				131EEBF11E60FFAE00723168 /* Forecast.swift in Sources */,
 				1327E8601E58B3C40038D14E /* ForecastViewController.swift in Sources */,
 				136986621E5E77D5008E2FEA /* LocationSearchTable.swift in Sources */,
 				1327E85E1E58B3370038D14E /* CitiesTableViewController.swift in Sources */,
+				131EEBEB1E60F9D600723168 /* WeatherApi.swift in Sources */,
+				131EEBF31E61045000723168 /* NetworkPovider.swift in Sources */,
 				131C70AF1E57B1E000438175 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

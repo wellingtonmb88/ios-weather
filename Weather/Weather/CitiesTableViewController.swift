@@ -14,12 +14,15 @@ class CitiesTableViewController: UITableViewController {
     @IBOutlet weak var cityTableView: UITableView!
     
     var cities: [NSManagedObject] = []
+    var forecastList: [Forecast] = []
     
     override func viewDidLoad() {
         super.viewDidLoad() 
         cityTableView.register(UITableViewCell.self,
                            forCellReuseIdentifier: "cityCellIdentifier")
+//        requestForecasts(city: "Campinas", state: "SP")
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -49,6 +52,15 @@ class CitiesTableViewController: UITableViewController {
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "forecastSegue" {
+            let destinationVC = segue.destination as! ForecastViewController
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                destinationVC.city = cities[indexPath.row]
+            }
+        }
     }
 }
 
@@ -80,8 +92,9 @@ extension CitiesTableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cityCellIdentifier", for: indexPath)
 
         let cityName = city.value(forKeyPath: "name") as? String
+        let cityState = city.value(forKeyPath: "state") as? String
         let cityCountry = city.value(forKeyPath: "country") as? String
-        cell.textLabel?.text = "\(cityName!) - \(cityCountry!)"
+        cell.textLabel?.text = "\(cityName!) - \(cityState!) - \(cityCountry!)"
 
         return cell
     }

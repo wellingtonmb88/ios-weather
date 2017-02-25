@@ -8,10 +8,18 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class ForecastViewController: UIViewController {
- 
+  
+    var city: NSManagedObject?
+    
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let cityName = city?.value(forKeyPath: "name") as? String
+        let cityState = city?.value(forKeyPath: "state") as? String
+        let cityCountry = city?.value(forKeyPath: "country") as? String
     }
     
 }

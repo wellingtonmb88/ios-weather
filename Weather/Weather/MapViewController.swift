@@ -23,7 +23,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var resultSearchController:UISearchController?
     
-    var selectedPin:MKPlacemark?
+    var cityState: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,14 +43,21 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         resultSearchController = UISearchController(searchResultsController: locationSearchTable)
         resultSearchController?.searchResultsUpdater = locationSearchTable
         
+        
         let searchBar = resultSearchController!.searchBar
         searchBar.sizeToFit()
         searchBar.placeholder = "Search for places"
+        searchBar.isHidden = true
         navigationItem.titleView = resultSearchController?.searchBar
         
         resultSearchController?.hidesNavigationBarDuringPresentation = false
         resultSearchController?.dimsBackgroundDuringPresentation = true
         definesPresentationContext = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) { 
+        let searchBar = resultSearchController!.searchBar
+        searchBar.isHidden = false
     }
     
     @IBAction func saveCity(_ sender: Any) {
@@ -84,6 +91,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                                      insertInto: managedContext)
         
         city.setValue(annotations[0].title!, forKeyPath: "name")
+        city.setValue(cityState, forKeyPath: "state")
         city.setValue(annotations[0].subtitle!, forKeyPath: "country")
         city.setValue(annotations[0].coordinate.latitude, forKeyPath: "latitude")
         city.setValue(annotations[0].coordinate.longitude, forKeyPath: "longitude")
@@ -115,13 +123,15 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 var placeMark: CLPlacemark!
                 placeMark = placemarks?[0]
                 
-                guard let city = placeMark.addressDictionary!["City"] as? String,
-                    let country = placeMark.addressDictionary!["Country"] as? String else {
+                guard let city = placeMark.locality,
+                    let state = placeMark.administrativeArea,
+                    let country = placeMark.country else {
                         return
                 }
                 
                 annotation.title = city
                 annotation.subtitle = country
+                self.cityState = state
                 self.mapView.addAnnotation(annotation)
                 self.annotations.append(annotation)
                 self.saveButton.isEnabled = true
@@ -132,21 +142,21 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 }
 
 extension MapViewController: HandleMapSearch {
-    func dropPinZoomIn(placemark:MKPlacemark){
-        // cache the pin
-        selectedPin = placemark
+    func dropPinZoomIn(placemark:MKPlacemark){ 
         // clear existing pins
         mapView.removeAnnotations(mapView.annotations)
         let annotation = MKPointAnnotation()
         annotation.coordinate = placemark.coordinate
         
-        guard let city = placemark.addressDictionary!["City"] as? String,
-            let country = placemark.addressDictionary!["Country"] as? String else {
+        guard let city = placemark.locality,
+            let state = placemark.administrativeArea,
+            let country = placemark.country else {
                 return
         }
         
         annotation.title = city
         annotation.subtitle = country
+        self.cityState = state
         
         mapView.addAnnotation(annotation)
         let span = MKCoordinateSpanMake(0.05, 0.05)

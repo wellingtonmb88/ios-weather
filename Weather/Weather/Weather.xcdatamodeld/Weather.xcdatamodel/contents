@@ -5,8 +5,9 @@
         <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CityEntity" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="CityEntity" positionX="-63" positionY="-18" width="128" height="120"/>
     </elements>
 </model>
