@@ -21,6 +21,15 @@
 		133A20F01E5BD06100DC61A0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133A20EF1E5BD06100DC61A0 /* MapKit.framework */; };
 		136986621E5E77D5008E2FEA /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136986611E5E77D5008E2FEA /* LocationSearchTable.swift */; };
 		13AE745C1E6782510030AA1F /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AE745B1E6782510030AA1F /* LoadingViewController.swift */; };
+		13AE745F1E6786630030AA1F /* Image+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AE745E1E6786630030AA1F /* Image+GIF.swift */; };
+		13AE74631E678D110030AA1F /* thunderstorms.gif in Resources */ = {isa = PBXBuildFile; fileRef = 13AE74621E678D110030AA1F /* thunderstorms.gif */; };
+		13AE746C1E6791FD0030AA1F /* sunny.gif in Resources */ = {isa = PBXBuildFile; fileRef = 13AE74651E6791FD0030AA1F /* sunny.gif */; };
+		13AE746D1E6791FD0030AA1F /* snow.gif in Resources */ = {isa = PBXBuildFile; fileRef = 13AE74661E6791FD0030AA1F /* snow.gif */; };
+		13AE746E1E6791FD0030AA1F /* cloudy.gif in Resources */ = {isa = PBXBuildFile; fileRef = 13AE74671E6791FD0030AA1F /* cloudy.gif */; };
+		13AE746F1E6791FD0030AA1F /* severe_thunderstorms.gif in Resources */ = {isa = PBXBuildFile; fileRef = 13AE74681E6791FD0030AA1F /* severe_thunderstorms.gif */; };
+		13AE74701E6791FD0030AA1F /* hurricane.gif in Resources */ = {isa = PBXBuildFile; fileRef = 13AE74691E6791FD0030AA1F /* hurricane.gif */; };
+		13AE74711E6791FD0030AA1F /* tropical_storm.gif in Resources */ = {isa = PBXBuildFile; fileRef = 13AE746A1E6791FD0030AA1F /* tropical_storm.gif */; };
+		13AE74721E6791FD0030AA1F /* tornado.gif in Resources */ = {isa = PBXBuildFile; fileRef = 13AE746B1E6791FD0030AA1F /* tornado.gif */; };
 		13CDA2421E61A33900225A74 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CDA2411E61A33900225A74 /* PageViewController.swift */; };
 		13F39E9E1E5D0A10002E31DD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13F39E9D1E5D0A0F002E31DD /* CoreData.framework */; };
 /* End PBXBuildFile section */
@@ -42,6 +51,15 @@
 		133A20EF1E5BD06100DC61A0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		136986611E5E77D5008E2FEA /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		13AE745B1E6782510030AA1F /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		13AE745E1E6786630030AA1F /* Image+GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+GIF.swift"; sourceTree = "<group>"; };
+		13AE74621E678D110030AA1F /* thunderstorms.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = thunderstorms.gif; sourceTree = "<group>"; };
+		13AE74651E6791FD0030AA1F /* sunny.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = sunny.gif; sourceTree = "<group>"; };
+		13AE74661E6791FD0030AA1F /* snow.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = snow.gif; sourceTree = "<group>"; };
+		13AE74671E6791FD0030AA1F /* cloudy.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = cloudy.gif; sourceTree = "<group>"; };
+		13AE74681E6791FD0030AA1F /* severe_thunderstorms.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = severe_thunderstorms.gif; sourceTree = "<group>"; };
+		13AE74691E6791FD0030AA1F /* hurricane.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = hurricane.gif; sourceTree = "<group>"; };
+		13AE746A1E6791FD0030AA1F /* tropical_storm.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = tropical_storm.gif; sourceTree = "<group>"; };
+		13AE746B1E6791FD0030AA1F /* tornado.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = tornado.gif; sourceTree = "<group>"; };
 		13CDA2411E61A33900225A74 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		13F39E9D1E5D0A0F002E31DD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -79,6 +97,8 @@
 		131C70AD1E57B1E000438175 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
+				13AE74641E6791E00030AA1F /* Gifs */,
+				13AE745D1E67864F0030AA1F /* Utils */,
 				131EEBE71E60EE9A00723168 /* model */,
 				131C70AE1E57B1E000438175 /* AppDelegate.swift */,
 				131C70B01E57B1E000438175 /* MapViewController.swift */,
@@ -129,6 +149,29 @@
 				133A20EF1E5BD06100DC61A0 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		13AE745D1E67864F0030AA1F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				13AE745E1E6786630030AA1F /* Image+GIF.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		13AE74641E6791E00030AA1F /* Gifs */ = {
+			isa = PBXGroup;
+			children = (
+				13AE74651E6791FD0030AA1F /* sunny.gif */,
+				13AE74661E6791FD0030AA1F /* snow.gif */,
+				13AE74671E6791FD0030AA1F /* cloudy.gif */,
+				13AE74681E6791FD0030AA1F /* severe_thunderstorms.gif */,
+				13AE74691E6791FD0030AA1F /* hurricane.gif */,
+				13AE746A1E6791FD0030AA1F /* tropical_storm.gif */,
+				13AE746B1E6791FD0030AA1F /* tornado.gif */,
+				13AE74621E678D110030AA1F /* thunderstorms.gif */,
+			);
+			name = Gifs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,9 +234,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13AE74631E678D110030AA1F /* thunderstorms.gif in Resources */,
+				13AE74721E6791FD0030AA1F /* tornado.gif in Resources */,
+				13AE746D1E6791FD0030AA1F /* snow.gif in Resources */,
+				13AE746C1E6791FD0030AA1F /* sunny.gif in Resources */,
+				13AE746E1E6791FD0030AA1F /* cloudy.gif in Resources */,
+				13AE74711E6791FD0030AA1F /* tropical_storm.gif in Resources */,
 				131C70BC1E57B1E000438175 /* LaunchScreen.storyboard in Resources */,
 				131C70B91E57B1E000438175 /* Assets.xcassets in Resources */,
 				131C70B41E57B1E000438175 /* Main.storyboard in Resources */,
+				13AE74701E6791FD0030AA1F /* hurricane.gif in Resources */,
+				13AE746F1E6791FD0030AA1F /* severe_thunderstorms.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +257,7 @@
 			files = (
 				131C70B71E57B1E000438175 /* Weather.xcdatamodeld in Sources */,
 				13CDA2421E61A33900225A74 /* PageViewController.swift in Sources */,
+				13AE745F1E6786630030AA1F /* Image+GIF.swift in Sources */,
 				131C70B11E57B1E000438175 /* MapViewController.swift in Sources */,
 				131EEBF11E60FFAE00723168 /* Forecast.swift in Sources */,
 				1327E8601E58B3C40038D14E /* ForecastViewController.swift in Sources */,
