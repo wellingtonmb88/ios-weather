@@ -13,11 +13,17 @@ class WeatherApi: NSObject {
      https://query.yahooapis.com/v1/public/yql?q=select
       * from weather.forecast where u="c" AND woeid in (select woeid from geo.places(1) where text="chicago,il")&format=json 
  */
+    static let sharedInstance = WeatherApi()
     
-    private static let WeatherEndpoint = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20u=%27c%27%20AND%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text=%27"
+    private let WeatherEndpoint = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20u=%27c%27%20AND%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text=%27"
     
-    static func requestForecasts(city:String, state: String, callback:@escaping ([Forecast]?, Error?)->()){
-        if let url = NSURL(string: "\(WeatherEndpoint)\(city),\(state)%27)&format=json") {
+    func requestForecasts(city:String, state: String, callback:@escaping ([Forecast]?, Error?)->()){
+       
+        let _city = city.folding(options: .diacriticInsensitive, locale: .current)
+        let _state = state.folding(options: .diacriticInsensitive, locale: .current)
+        let urlString = "\(WeatherEndpoint)\(_city),\(_state)%27)&format=json"
+                                                                    .replacingOccurrences(of: " ", with: "%20")
+        if let url = NSURL(string: urlString) {
             
             let request:NSMutableURLRequest = NSMutableURLRequest(url:url as URL)
             var forecasts:[Forecast] = []

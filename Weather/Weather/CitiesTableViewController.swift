@@ -20,9 +20,7 @@ class CitiesTableViewController: UITableViewController {
         super.viewDidLoad() 
         cityTableView.register(UITableViewCell.self,
                            forCellReuseIdentifier: "cityCellIdentifier")
-//        requestForecasts(city: "Campinas", state: "SP")
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -56,9 +54,10 @@ class CitiesTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "forecastSegue" {
-            let destinationVC = segue.destination as! ForecastViewController
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-                destinationVC.city = cities[indexPath.row]
+            if let destinationVC = segue.destination as? PageViewController {
+                if let indexPath = self.tableView.indexPathForSelectedRow {
+                    destinationVC.city = cities[indexPath.row]
+                }
             }
         }
     }

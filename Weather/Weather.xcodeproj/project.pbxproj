@@ -20,6 +20,7 @@
 		1327E8601E58B3C40038D14E /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1327E85F1E58B3C40038D14E /* ForecastViewController.swift */; };
 		133A20F01E5BD06100DC61A0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133A20EF1E5BD06100DC61A0 /* MapKit.framework */; };
 		136986621E5E77D5008E2FEA /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136986611E5E77D5008E2FEA /* LocationSearchTable.swift */; };
+		13CDA2421E61A33900225A74 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CDA2411E61A33900225A74 /* PageViewController.swift */; };
 		13F39E9E1E5D0A10002E31DD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13F39E9D1E5D0A0F002E31DD /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		1327E85F1E58B3C40038D14E /* ForecastViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		133A20EF1E5BD06100DC61A0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		136986611E5E77D5008E2FEA /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
+		13CDA2411E61A33900225A74 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		13F39E9D1E5D0A0F002E31DD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 				1327E85D1E58B3370038D14E /* CitiesTableViewController.swift */,
 				1327E85F1E58B3C40038D14E /* ForecastViewController.swift */,
 				136986611E5E77D5008E2FEA /* LocationSearchTable.swift */,
+				13CDA2411E61A33900225A74 /* PageViewController.swift */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				131C70B71E57B1E000438175 /* Weather.xcdatamodeld in Sources */,
+				13CDA2421E61A33900225A74 /* PageViewController.swift in Sources */,
 				131C70B11E57B1E000438175 /* MapViewController.swift in Sources */,
 				131EEBF11E60FFAE00723168 /* Forecast.swift in Sources */,
 				1327E8601E58B3C40038D14E /* ForecastViewController.swift in Sources */,

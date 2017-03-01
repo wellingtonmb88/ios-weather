@@ -11,15 +11,25 @@ import UIKit
 import CoreData
 
 class ForecastViewController: UIViewController {
-  
-    var city: NSManagedObject?
+    
+    @IBOutlet weak var weather: UILabel!
+    @IBOutlet weak var tempMin: UILabel!
+    @IBOutlet weak var tempMax: UILabel!
+    @IBOutlet weak var weekDay: UILabel!
+    @IBOutlet weak var date: UILabel!
+    
+    var forecast: Forecast? 
+    var pageIndex: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let cityName = city?.value(forKeyPath: "name") as? String
-        let cityState = city?.value(forKeyPath: "state") as? String
-        let cityCountry = city?.value(forKeyPath: "country") as? String
+        date.text = forecast?.date
+        weekDay.text = forecast?.day
+        tempMax.text = forecast?.high
+        tempMin.text = forecast?.low
+        weather.text = forecast?.text
     }
-    
+   
+
 }
