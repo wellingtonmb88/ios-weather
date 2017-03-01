@@ -10,24 +10,20 @@ import Foundation
 import UIKit
 import CoreData
 
-class PageViewController: UIPageViewController, UIPageViewControllerDataSource{
-    
-    var activityView:UIActivityIndicatorView?
+class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
     var city: NSManagedObject?
     var forecasts:[Forecast] = []
-    var pageControl: UIPageControl?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.dataSource = self
         self.setViewControllers([getViewControllerAtIndex(index: 0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         
-        pageControl = UIPageControl.appearance()
-        pageControl?.pageIndicatorTintColor = UIColor.gray
-        pageControl?.currentPageIndicatorTintColor = UIColor.black
-        pageControl?.backgroundColor = UIColor.white
+        let pageControl = UIPageControl.appearance()
+        pageControl.pageIndicatorTintColor = UIColor.gray
+        pageControl.currentPageIndicatorTintColor = UIColor.black
+        pageControl.backgroundColor = UIColor.white
         
         let cityName = city?.value(forKeyPath: "name") as? String
         let cityState = city?.value(forKeyPath: "state") as? String
@@ -36,7 +32,12 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource{
         WeatherApi.sharedInstance.requestForecasts(city: cityName!, state: cityState!) { [weak self]
             (forecasts, error) in
             
-            if(error != nil){
+            if let netError = error as? NetError{
+                let alert = UIAlertController(title: "Oooops!", message: "\(netError.description)", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default) {[weak self] action  in
+                    let _ = self?.navigationController?.popViewController(animated: true)
+                })
+                self?.present(alert, animated: true)
                 return
             }
             
@@ -50,8 +51,8 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource{
     }
     
     private func setupPageView(){
-        activityView?.stopAnimating()
-        self.setViewControllers([getViewControllerAtIndex(index: 0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil) 
+        self.setViewControllers([getViewControllerAtIndex(index: 0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
+        self.dataSource = self
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -62,7 +63,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource{
             return nil;
         }
         index += 1;
-        if (index == forecasts.count) {
+        if (index == self.forecasts.count) {
             return nil;
         }
         return getViewControllerAtIndex(index: index)
@@ -82,33 +83,25 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource{
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
         if self.forecasts.count > 0 {
             view.isUserInteractionEnabled = true
-            return self.forecasts.count
-        } else{
-            return 1
         }
+        return self.forecasts.count
     }
     
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         return 0
     }
     
-    func getViewControllerAtIndex(index: NSInteger) -> ForecastViewController {
-        // Create a new view controller and pass suitable data.
-        let forecastViewController = self.storyboard?.instantiateViewController(withIdentifier: "ForecastViewController") as! ForecastViewController
+    func getViewControllerAtIndex(index: NSInteger) -> UIViewController {
         if self.forecasts.count > 0 {
-            forecastViewController.forecast = forecasts[index]
+            let forecastViewController = self.storyboard?.instantiateViewController(withIdentifier: "ForecastViewController") as! ForecastViewController
             forecastViewController.pageIndex = index
-        }else {
-            let forecastView = forecastViewController.view
-            //Here the spinnier is initialized
-            activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
-            activityView?.frame = CGRect(x: ((view.bounds.width-100)/2), y: ((view.bounds.height-100)/2), width: 100, height: 100)
-            activityView?.hidesWhenStopped = true
-            activityView?.startAnimating()
-            forecastView?.addSubview(activityView!)
+            forecastViewController.forecast = forecasts[index]
+            return forecastViewController
+        } else {
+            let loadingViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoadingViewController") as! LoadingViewController
             view.isUserInteractionEnabled = false
+            return loadingViewController
         }
-        return forecastViewController
     }
 
 }

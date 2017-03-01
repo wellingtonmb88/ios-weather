@@ -172,6 +172,57 @@
             </objects>
             <point key="canvasLocation" x="153" y="488"/>
         </scene>
+        <!--Loading View Controller-->
+        <scene sceneID="bIC-LA-4k4">
+            <objects>
+                <viewController storyboardIdentifier="LoadingViewController" id="gP9-3E-E5o" customClass="LoadingViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mqR-LZ-N58"/>
+                        <viewControllerLayoutGuide type="bottom" id="dQz-xl-cYh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="K8c-Ku-FUf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading_bg_weather" translatesAutoresizingMaskIntoConstraints="NO" id="Nio-aZ-rrU">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="McH-z6-otm">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="dWg-qt-jO6">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="cOL-LD-CZb">
+                                            <rect key="frame" x="189" y="350" width="37" height="37"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="cOL-LD-CZb" firstAttribute="centerX" secondItem="dWg-qt-jO6" secondAttribute="centerX" id="3nJ-17-apm"/>
+                                        <constraint firstItem="cOL-LD-CZb" firstAttribute="centerY" secondItem="dWg-qt-jO6" secondAttribute="centerY" id="YR1-gM-G69"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Nio-aZ-rrU" secondAttribute="trailing" id="3dt-JC-f8L"/>
+                            <constraint firstItem="McH-z6-otm" firstAttribute="leading" secondItem="K8c-Ku-FUf" secondAttribute="leading" id="69a-KI-e9p"/>
+                            <constraint firstItem="Nio-aZ-rrU" firstAttribute="leading" secondItem="K8c-Ku-FUf" secondAttribute="leading" id="7Qy-aW-uzx"/>
+                            <constraint firstAttribute="trailing" secondItem="McH-z6-otm" secondAttribute="trailing" id="NvH-my-Wfa"/>
+                            <constraint firstItem="McH-z6-otm" firstAttribute="top" secondItem="K8c-Ku-FUf" secondAttribute="top" id="hCU-6z-Njk"/>
+                            <constraint firstItem="dQz-xl-cYh" firstAttribute="top" secondItem="Nio-aZ-rrU" secondAttribute="bottom" id="p32-Hw-fft"/>
+                            <constraint firstItem="dQz-xl-cYh" firstAttribute="top" secondItem="McH-z6-otm" secondAttribute="bottom" id="s12-Lx-TvL"/>
+                            <constraint firstItem="Nio-aZ-rrU" firstAttribute="top" secondItem="K8c-Ku-FUf" secondAttribute="top" id="zhW-rd-wfm"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="we6-29-6uI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="127.53623188405798" y="1138.858695652174"/>
+        </scene>
         <!--Forecast-->
         <scene sceneID="OCw-Be-CCq">
             <objects>
@@ -258,4 +309,7 @@
             <point key="canvasLocation" x="984.05797101449286" y="486.68478260869568"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="loading_bg_weather" width="414" height="736"/>
+    </resources>
 </document>
