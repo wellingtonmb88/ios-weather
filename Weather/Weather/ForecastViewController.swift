@@ -29,14 +29,28 @@ class ForecastViewController: UIViewController {
         weekDay.text = forecast?.day
         tempMax.text = forecast?.high
         tempMin.text = forecast?.low
+        let weatherName = (forecast?.text)!
+        weather.text = weatherName
         
-        let weatherText = forecast?.text.replacingOccurrences(of: " ", with: "_").lowercased()
-        weather.text = weatherText
-        
-        
-        let imageGif = UIImage.gifImageWithName(name: weatherText!)
-        bgGIF.image = imageGif
+        if let imageGif = UIImage.gifImageWithName(name: normalizeWeatherString(name: weatherName)){
+            bgGIF.image = imageGif
+        }else{
+            
+        }
     }
-   
-
+    
+    func normalizeWeatherString(name :String) -> String{
+        var name = name
+        name = name.replacingOccurrences(of: " ", with: "_").lowercased()
+        name = name.replacingOccurrences(of: "scattered_", with: "")
+        name = name.replacingOccurrences(of: "_(night)", with: "")
+        name = name.replacingOccurrences(of: "_(day)", with: "")
+        name = name.replacingOccurrences(of: "partly_", with: "")
+        name = name.replacingOccurrences(of: "isolated_", with: "")
+        name = name.replacingOccurrences(of: "heavy_", with: "")
+        name = name.replacingOccurrences(of: "mostly_", with: "")
+        name = name.replacingOccurrences(of: "mixed_", with: "")
+        
+        return name
+    }
 }
