@@ -15,6 +15,9 @@ class WeatherApi: NSObject {
  */
     static let sharedInstance = WeatherApi()
     
+    private override init(){
+    }
+    
     private let WeatherEndpoint = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20u=%27c%27%20AND%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text=%27"
     
     func requestForecasts(city:String, state: String, callback:@escaping ([Forecast]?, Error?)->()){
@@ -28,7 +31,7 @@ class WeatherApi: NSObject {
             let request:NSMutableURLRequest = NSMutableURLRequest(url:url as URL)
             var forecasts:[Forecast] = []
             
-            NetworkPovider.requestData(request: request, callback: { (data, error) -> () in
+            NetworkService.sharedInstance.requestData(request: request, callback: { (data, error) -> () in
                 
                 if let error = error {
                     print(error)

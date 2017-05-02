@@ -8,58 +8,39 @@
 
 import Foundation
 import UIKit
-import CoreData
 
-class CitiesTableViewController: UITableViewController {
+class CitiesTableViewController: UITableViewController, CityViewModelDelegate {
     @IBOutlet weak var cityTableView: UITableView!
     
-    var cities: [NSManagedObject] = []
-    var forecastList: [Forecast] = []
+    var cities: [City] = []
+    var cityViewModel : CityViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad() 
-        cityTableView.register(UITableViewCell.self,
-                           forCellReuseIdentifier: "cityCellIdentifier")
+        cityTableView.register(CityTableViewCell.self, forCellReuseIdentifier: "cityCellIdentifier")
+        cityViewModel = CityViewModel(delegate: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "CityEntity")
-        
-        do {
-            cities = try getContext().fetch(fetchRequest)
-            cityTableView.reloadData()
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-    }
-    
-    func delete(city: NSManagedObject) {
-        let moc = getContext()
-        moc.delete(city)
-        do {
-            try moc.save()
-            print("saved!")
-        } catch let error as NSError  {
-            print("Could not save \(error), \(error.userInfo)")
-        }
-    }
-    
-    func getContext () -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.persistentContainer.viewContext
+        cityViewModel?.getCities()
+        cityTableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "forecastSegue" {
-            if let destinationVC = segue.destination as? PageViewController {
+            if let destinationVC = segue.destination as? ForecastPageViewController {
                 if let indexPath = self.tableView.indexPathForSelectedRow {
                     destinationVC.city = cities[indexPath.row]
                 }
             }
         }
+    }
+    
+    // MARK: - CityViewModelDelegate
+    
+    func update(withCities cities: [City]){
+        self.cities = cities
     }
 }
 
@@ -77,8 +58,7 @@ extension CitiesTableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle,
                                                         forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            self.delete(city: self.cities[indexPath.row])
-            self.cities.remove(at: indexPath.row)
+            cityViewModel?.delete(city: self.cities[indexPath.row])
             self.tableView.beginUpdates()
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             self.tableView.endUpdates()
@@ -86,18 +66,14 @@ extension CitiesTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)-> UITableViewCell {
-            
-        let city = cities[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cityCellIdentifier", for: indexPath)
-
-        let cityName = city.value(forKeyPath: "name") as? String
-        let cityState = city.value(forKeyPath: "state") as? String
-        let cityCountry = city.value(forKeyPath: "country") as? String
-        cell.textLabel?.text = "\(cityName!) - \(cityState!) - \(cityCountry!)"
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cityCellIdentifier", for: indexPath) as! CityTableViewCell
+        cell.configure(withCity: cities[indexPath.row])
         return cell
-    }
-    
+    } 
+}
+
+// MARK: - UITableViewDelegate
+extension CitiesTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "forecastSegue", sender: nil)
     }

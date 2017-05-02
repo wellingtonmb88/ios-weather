@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import ImageIO
 
-
 extension UIImage {
     
     public class func gifImageWithData(data: NSData) -> UIImage? {

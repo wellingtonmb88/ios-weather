@@ -10,6 +10,19 @@ import Foundation
 import UIKit
 import CoreData
 
+public enum ForecastIcon: String {
+    case clear
+    case sunny
+    case rain
+    case snow
+    case sleet
+    case wind
+    case fog
+    case cloudy
+    case thunderstorms
+    case tornado
+}
+
 class ForecastViewController: UIViewController {
     
     @IBOutlet weak var weather: UILabel!
@@ -30,7 +43,41 @@ class ForecastViewController: UIViewController {
         tempMax.text = forecast?.high
         tempMin.text = forecast?.low
         let weatherName = (forecast?.text)!
-        weather.text = weatherName
+        
+        switch  normalizeWeatherString(name: weatherName) {
+            case ForecastIcon.clear.rawValue:
+                setFont(icon: FontIcon.clear)
+                break
+            case ForecastIcon.sunny.rawValue:
+                setFont(icon: FontIcon.clear)
+                break
+            case ForecastIcon.rain.rawValue:
+                setFont(icon: FontIcon.rain)
+                    break
+            case ForecastIcon.snow.rawValue:
+                setFont(icon: FontIcon.snow)
+                    break
+            case ForecastIcon.sleet.rawValue:
+                setFont(icon: FontIcon.sleet)
+                    break
+            case ForecastIcon.wind.rawValue:
+                setFont(icon: FontIcon.wind)
+                    break
+            case ForecastIcon.fog.rawValue:
+                setFont(icon: FontIcon.fog)
+                    break
+            case ForecastIcon.cloudy.rawValue:
+                setFont(icon: FontIcon.cloudy)
+                    break
+            case ForecastIcon.thunderstorms.rawValue:
+                setFont(icon: FontIcon.thunderstorm)
+                    break
+            case ForecastIcon.tornado.rawValue:
+                setFont(icon: FontIcon.tornado)
+                    break
+            default:
+                break
+        }
         
         if let imageGif = UIImage.gifImageWithName(name: normalizeWeatherString(name: weatherName)){
             bgGIF.image = imageGif
@@ -38,6 +85,11 @@ class ForecastViewController: UIViewController {
             
         }
     }
+    
+    func setFont(icon: FontIcon){
+        weather.attributedText = IconFont.string(fromIcon: icon, size: 70.0,color: UIColor.blue)
+    }
+    
     
     func normalizeWeatherString(name :String) -> String{
         var name = name

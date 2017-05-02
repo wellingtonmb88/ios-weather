@@ -10,17 +10,12 @@ import UIKit
 import MapKit
 import CoreData
 
-protocol HandleMapSearch {
-    func dropPinZoomIn(placemark:MKPlacemark)
-}
-
 class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     var annotations:[MKAnnotation] = []
-    
     var resultSearchController:UISearchController?
     
     var cityState: String?
@@ -28,31 +23,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         saveButton.isEnabled = false
-        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(addAnnotation))
-        lpgr.minimumPressDuration = 0.5
-        lpgr.delaysTouchesBegan = true
-        lpgr.delegate = self
-        self.mapView.addGestureRecognizer(lpgr)
-        
-        let locationSearchTable =
-            storyboard!.instantiateViewController(withIdentifier: "LocationSearchTable") as! LocationSearchTable
-        
-        locationSearchTable.mapView = mapView
-        locationSearchTable.handleMapSearchDelegate = self
-        
-        resultSearchController = UISearchController(searchResultsController: locationSearchTable)
-        resultSearchController?.searchResultsUpdater = locationSearchTable
-        
-        
-        let searchBar = resultSearchController!.searchBar
-        searchBar.sizeToFit()
-        searchBar.placeholder = "Search for places"
-        searchBar.isHidden = true
-        navigationItem.titleView = resultSearchController?.searchBar
-        
-        resultSearchController?.hidesNavigationBarDuringPresentation = false
-        resultSearchController?.dimsBackgroundDuringPresentation = true
-        definesPresentationContext = true
+        setupLongPressGesture()
+        setupSearchController()
     }
     
     override func viewDidAppear(_ animated: Bool) { 
@@ -61,49 +33,68 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func saveCity(_ sender: Any) {
-        let cityName: String = annotations[0].title! ?? ""
-        let alert = UIAlertController(title: "Niceeee!", message: "\(cityName) saved successfully!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default) {[weak self] action  in
-            let _ = self?.navigationController?.popViewController(animated: true)
-        })
-        save()
+        presentSavedCityAlertController()
+        
+        let city = City(name: annotations[0].title!!,
+                        state: self.cityState!,
+                        country: annotations[0].subtitle!!,
+                        latitude: annotations[0].coordinate.latitude,
+                        longitude: annotations[0].coordinate.longitude)
+        
+        let viewModel = MapViewModel(city: city)
+        
+        viewModel.persistCity()
         self.mapView.removeAnnotations(annotations)
         annotations = []
         saveButton.isEnabled = false
+    }
+}
+
+//MARK: Methods
+extension MapViewController {
+    
+    func presentSavedCityAlertController() {
+        let cityName: String = annotations[0].title! ?? ""
+        let alert = UIAlertController(title: "Niceeee!", message: "\(cityName) saved successfully!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default) {[weak self] action  in
+            self?.navigationController?.popViewController(animated: true)
+        })
         self.present(alert, animated: true)
     }
     
-    func save() {
-        
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        let entity =
-            NSEntityDescription.entity(forEntityName: "CityEntity",
-                                       in: managedContext)!
-        
-        let city = NSManagedObject(entity: entity,
-                                     insertInto: managedContext)
-        
-        city.setValue(annotations[0].title!, forKeyPath: "name")
-        city.setValue(cityState, forKeyPath: "state")
-        city.setValue(annotations[0].subtitle!, forKeyPath: "country")
-        city.setValue(annotations[0].coordinate.latitude, forKeyPath: "latitude")
-        city.setValue(annotations[0].coordinate.longitude, forKeyPath: "longitude")
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
+    func setupLongPressGesture() {
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(addAnnotationMark))
+        lpgr.minimumPressDuration = 0.5
+        lpgr.delaysTouchesBegan = true
+        lpgr.delegate = self
+        self.mapView.addGestureRecognizer(lpgr)
     }
     
-    func addAnnotation(gestureRecognizer:UILongPressGestureRecognizer){
+    func setupSearchController() {
+        let locationSearchTable = storyboard?
+            .instantiateViewController(withIdentifier: "LocationSearchTableViewController") as! LocationSearchTableViewController
+        
+        locationSearchTable.mapView = mapView
+        locationSearchTable.delegate = self
+        
+        resultSearchController = UISearchController(searchResultsController: locationSearchTable)
+        resultSearchController?.searchResultsUpdater = locationSearchTable
+        setupSearchBar()
+        
+        resultSearchController?.hidesNavigationBarDuringPresentation = false
+        resultSearchController?.dimsBackgroundDuringPresentation = true
+        definesPresentationContext = true
+    }
+    
+    func setupSearchBar() {
+        let searchBar = resultSearchController!.searchBar
+        searchBar.sizeToFit()
+        searchBar.placeholder = "Search for places"
+        searchBar.isHidden = true
+        navigationItem.titleView = resultSearchController?.searchBar
+    }
+    
+    func addAnnotationMark(gestureRecognizer:UILongPressGestureRecognizer){
         if gestureRecognizer.state == UIGestureRecognizerState.began {
             self.mapView.removeAnnotations(annotations)
             annotations = []
@@ -136,12 +127,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.annotations.append(annotation)
                 self.saveButton.isEnabled = true
             })
-            
         }
     }
 }
 
-extension MapViewController: HandleMapSearch {
+extension MapViewController: HandleLocationSearch {
     func dropPinZoomIn(placemark:MKPlacemark){ 
         // clear existing pins
         mapView.removeAnnotations(mapView.annotations)

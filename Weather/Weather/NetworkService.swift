@@ -19,17 +19,16 @@ enum NetError : Error, CustomStringConvertible {
     var description:String {
         
         switch self {
-            
-        case let .NotFound(statusCode):
-            return "Página não encontrada (Erro \(statusCode))"
-        case let .Forbidden(statusCode):
-            return "Acesso não permitido (Erro \(statusCode))"
-        case let .ServerResponseError(statusCode):
-            return "Servidor não está respondendo no momento (Erro \(statusCode))"
-        case let .FatalError(errorDescription):
-            return "Fatal error: \(errorDescription)"
-        default:
-            return "Erro desconhecido"
+            case let .NotFound(statusCode):
+                return "Página não encontrada (Erro \(statusCode))"
+            case let .Forbidden(statusCode):
+                return "Acesso não permitido (Erro \(statusCode))"
+            case let .ServerResponseError(statusCode):
+                return "Servidor não está respondendo no momento (Erro \(statusCode))"
+            case let .FatalError(errorDescription):
+                return "Fatal error: \(errorDescription)"
+            default:
+                return "Erro desconhecido"
         }
     }
 }
@@ -52,9 +51,13 @@ struct Parser {
     }
 }
 
-class NetworkPovider: NSObject {
+class NetworkService: NSObject {
+    static let sharedInstance = NetworkService()
     
-    static func requestData(request:NSMutableURLRequest, callback:@escaping (AnyObject?, Error?)-> ()) {
+    private override init(){
+    }
+    
+    public func requestData(request:NSMutableURLRequest, callback:@escaping (AnyObject?, Error?)-> ()) {
         
         let session = URLSession.shared
         
@@ -70,7 +73,7 @@ class NetworkPovider: NSObject {
                 switch response.statusCode {
                     
                 case 200..<300:
-                    callback(data as AnyObject?? ?? nil, nil)
+                    callback(data as AnyObject, nil)
                 case 401:
                     callback(nil, NetError.Forbidden(response.statusCode))
                 case 404:
