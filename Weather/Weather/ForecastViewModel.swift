@@ -9,34 +9,32 @@
 import Foundation
 import CoreData
 
+protocol ForecastViewModelDelegate {
+    func update(withForecasts forecasts: [Forecast])
+    func showMessage(withError error: NetError)
+}
+
 struct ForecastViewModel {
     
-    let persistence = PersistenceService.sharedInstance
+    let delegate : ForecastViewModelDelegate
     let city: City
-    
-    init(city: City) {
+     
+    init(city: City, delegate: ForecastViewModelDelegate){
+        self.delegate = delegate
         self.city = city
     }
     
-    public func persistCity() {
-        let moc = persistence.getContext()
-        moc.performAndWait {
-            let entity =
-                NSEntityDescription.entity(forEntityName: "CityEntity", in: moc)!
+    public func getForecasts(){
+        WeatherApi.sharedInstance.requestForecasts(city:city.name!, state: city.state!) {
+            (forecasts, error) in
             
-            let cityMO = NSManagedObject(entity: entity, insertInto: moc)
+            if let netError = error as? NetError{
+                self.delegate.showMessage(withError: netError)
+                return
+            }
             
-            cityMO.setValue(self.city.name, forKeyPath: "name")
-            cityMO.setValue(self.city.state, forKeyPath: "state")
-            cityMO.setValue(self.city.country, forKeyPath: "country")
-            cityMO.setValue(self.city.latitude, forKeyPath: "latitude")
-            cityMO.setValue(self.city.longitude, forKeyPath: "longitude")
-            
-            do {
-                try moc.save()
-                print("Core Data saved!")
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
+            DispatchQueue.main.async {
+                self.delegate.update(withForecasts: forecasts!)
             }
         }
     }
