@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ForecastPageViewController: UIPageViewController, ForecastViewModelDelegate  {
+class ForecastPageViewController: UIPageViewController, ForecastPageViewModelDelegate  {
   
     var collectionView: UICollectionView!
     var city: City?
@@ -66,7 +66,7 @@ class ForecastPageViewController: UIPageViewController, ForecastViewModelDelegat
         let cityState = (city?.state)!
         navigationItem.title = "\(cityName) - \(cityState)"
         
-        let viewModel = ForecastViewModel(city: city!, delegate: self)
+        let viewModel = ForecastPageViewModel(city: city!, delegate: self)
         
         viewModel.getForecasts()
     }
@@ -78,7 +78,6 @@ class ForecastPageViewController: UIPageViewController, ForecastViewModelDelegat
                                 direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         self.view.addSubview(collectionView)
     }
-    
 }
 
 //MARK: UIPageViewControllerDelegate
@@ -86,7 +85,9 @@ extension ForecastPageViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         if let vc = pendingViewControllers[0] as? ForecastViewController {
-            self.cellIndex = vc.pageIndex
+            if let viewModel = vc.viewModel {
+                self.cellIndex = viewModel.pageIndex
+            }
         }
     }
     
@@ -94,11 +95,13 @@ extension ForecastPageViewController: UIPageViewControllerDelegate {
                             previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
         if let vc = previousViewControllers[0] as? ForecastViewController {
-            self.collectionView.cellForItem(at: IndexPath(item: vc.pageIndex, section: 0))?.subviews.forEach({ (view) in
-                if let label = view as? UILabel {
-                    setupPagerViewLabel(label, color: UIColor.black, fontSize: 15)
-                }
-            })
+            if let viewModel = vc.viewModel {
+                self.collectionView.cellForItem(at: IndexPath(item: viewModel.pageIndex, section: 0))?.subviews.forEach({ (view) in
+                    if let label = view as? UILabel {
+                        setupPagerViewLabel(label, color: UIColor.black, fontSize: 15)
+                    }
+                })
+            }
         }
         
         if completed {
@@ -135,35 +138,36 @@ extension ForecastPageViewController: UIPageViewControllerDataSource {
     func getViewControllerAtIndex(index: NSInteger) -> UIViewController {
         if self.forecasts.count > 0 {
             let forecastViewController = self.storyboard?.instantiateViewController(withIdentifier: "ForecastViewController") as! ForecastViewController
-            forecastViewController.pageIndex = index
-            forecastViewController.forecast = forecasts[index]
+            forecastViewController.viewModel = ForecastViewModel(pageIndex: index, forecast: forecasts[index])
             return forecastViewController
         } else {
-            let loadingViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoadingViewController") as! LoadingViewController
-            return loadingViewController
+            return self.storyboard?.instantiateViewController(withIdentifier: "LoadingViewController") as! LoadingViewController
         }
     }
     
     func getPageIndex(isViewControllerBefore: Bool, viewController: UIViewController) -> Int {
         let pageContent: ForecastViewController = viewController as! ForecastViewController
-        var index = pageContent.pageIndex
-        
-        if index == NSNotFound {
-            return -1;
-        }
-        
-        if isViewControllerBefore {
-            if index == 0 {
+        if let viewModel = pageContent.viewModel {
+            var index = viewModel.pageIndex
+            
+            if index == NSNotFound {
                 return -1;
             }
-            index -= 1
-        } else {
-            index += 1
-            if (index == self.forecasts.count) {
-                return -1;
+            
+            if isViewControllerBefore {
+                if index == 0 {
+                    return -1;
+                }
+                index -= 1
+            } else {
+                index += 1
+                if (index == self.forecasts.count) {
+                    return -1;
+                }
             }
+            return index
         }
-        return index
+        return -1
     }
 }
 

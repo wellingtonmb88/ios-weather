@@ -56,10 +56,7 @@ public final class IconFont {
         }
         
         let font = CGFont(provider)
-        CTFontManagerRegisterGraphicsFont(font, &error)
-//        if error != nil {
-//            return
-//        }
+        CTFontManagerRegisterGraphicsFont(font, &error) 
     }
     
     private static func stringForIcon(_ icon : FontIcon) -> String? {
