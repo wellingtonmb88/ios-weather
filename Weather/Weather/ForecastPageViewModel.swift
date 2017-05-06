@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreData
 
 protocol ForecastPageViewModelDelegate {
     func update(withForecasts forecasts: [Forecast])

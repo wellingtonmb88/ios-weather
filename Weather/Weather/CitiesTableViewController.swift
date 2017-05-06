@@ -31,7 +31,7 @@ class CitiesTableViewController: UITableViewController, CityViewModelDelegate {
         if segue.identifier == "forecastSegue" {
             if let destinationVC = segue.destination as? ForecastPageViewController {
                 if let indexPath = self.tableView.indexPathForSelectedRow {
-                    destinationVC.city = cities[indexPath.row]
+                    destinationVC.viewModel = ForecastPageViewModel(city: cities[indexPath.row], delegate: destinationVC)
                 }
             }
         }

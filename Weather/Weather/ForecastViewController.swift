@@ -29,11 +29,18 @@ class ForecastViewController: UIViewController {
             tempMin.text = viewModel.forecast.low
             let weatherName = viewModel.forecast.text
             
-            weather.attributedText = viewModel.getFontIcon(fromWeather: weatherName)
+            weather.attributedText = getFont(fromUnicode: viewModel.getWeatherUnicode(fromWeather: weatherName))
             
             if let imageGif = UIImage.gifImageWithName(name: viewModel.normalizeWeatherString(name: weatherName)){
                 bgGIF.image = imageGif
             }
         }
+    }
+    
+    private func getFont(fromUnicode unicode: WeatherUnicode?) -> NSAttributedString?{
+        guard let weatherUnicode = unicode else {
+            return nil
+        }
+        return WeatherIconFont.string(fromUnicode: weatherUnicode, size: 70.0, color: UIColor.blue)
     }
 }

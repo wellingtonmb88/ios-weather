@@ -8,20 +8,6 @@
 
 
 import Foundation
-import UIKit
-
-public enum ForecastIcon: String {
-    case clear
-    case sunny
-    case rain
-    case snow
-    case sleet
-    case wind
-    case fog
-    case cloudy
-    case thunderstorms
-    case tornado
-}
 
 struct ForecastViewModel {
     
@@ -33,35 +19,29 @@ struct ForecastViewModel {
         self.forecast = forecast
     }
     
-    func getFontIcon(fromWeather weather:String) -> NSAttributedString? {
+    func getWeatherUnicode(fromWeather weather:String) -> WeatherUnicode? {
         switch  normalizeWeatherString(name: weather) {
-            case ForecastIcon.clear.rawValue:
-                return getFont(fromIcon: FontIcon.clear)
-            case ForecastIcon.sunny.rawValue:
-                return getFont(fromIcon: FontIcon.clear)
-            case ForecastIcon.rain.rawValue:
-                return getFont(fromIcon: FontIcon.rain)
-            case ForecastIcon.snow.rawValue:
-                return getFont(fromIcon: FontIcon.snow)
-            case ForecastIcon.sleet.rawValue:
-               return  getFont(fromIcon: FontIcon.sleet)
-            case ForecastIcon.wind.rawValue:
-                return getFont(fromIcon: FontIcon.wind)
-            case ForecastIcon.fog.rawValue:
-                return getFont(fromIcon: FontIcon.fog)
-            case ForecastIcon.cloudy.rawValue:
-                return getFont(fromIcon: FontIcon.cloudy)
-            case ForecastIcon.thunderstorms.rawValue:
-                return getFont(fromIcon: FontIcon.thunderstorm)
-            case ForecastIcon.tornado.rawValue:
-                return getFont(fromIcon: FontIcon.tornado)
+            case Weather.clear.rawValue, Weather.sunny.rawValue:
+                return WeatherUnicode.clear
+            case Weather.rain.rawValue:
+                return WeatherUnicode.rain
+            case Weather.snow.rawValue:
+                return WeatherUnicode.snow
+            case Weather.sleet.rawValue:
+               return  WeatherUnicode.sleet
+            case Weather.wind.rawValue:
+                return WeatherUnicode.wind
+            case Weather.fog.rawValue:
+                return WeatherUnicode.fog
+            case Weather.cloudy.rawValue:
+                return WeatherUnicode.cloudy
+            case Weather.thunderstorms.rawValue:
+                return WeatherUnicode.thunderstorm
+            case Weather.tornado.rawValue:
+                return WeatherUnicode.tornado
             default:
                 return nil
         }
-    }
-    
-    func getFont(fromIcon icon: FontIcon) -> NSAttributedString?{
-        return IconFont.string(fromIcon: icon, size: 70.0, color: UIColor.blue)
     }
     
     func normalizeWeatherString(name :String) -> String{

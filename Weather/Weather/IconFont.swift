@@ -22,7 +22,7 @@ import UIKit
  <string name="thunderstorm_icon">\uF016</string>
  <string name="tornado_icon">\uF056</string>
  */
-public enum FontIcon: UInt32 {
+public enum WeatherUnicode: UInt32 {
     case clear =  0xF00D
     case rain = 0xF01D
     case snow = 0xF017
@@ -34,7 +34,21 @@ public enum FontIcon: UInt32 {
     case tornado = 0xF056
 }
 
-public final class IconFont {
+public enum Weather: String {
+    case clear
+    case sunny
+    case rain
+    case snow
+    case sleet
+    case wind
+    case fog
+    case cloudy
+    case thunderstorms
+    case tornado
+}
+
+public final class WeatherIconFont {
+    
     private static func iconFont(_ size: CGFloat) -> UIFont? {
         if size == 0.0 {
             return nil
@@ -45,7 +59,7 @@ public final class IconFont {
     }
     
     private static func loadMyCustomFont(_ name:String) {
-        guard let fontPath = Bundle(for: IconFont.self).path(forResource: name, ofType: "ttf") else {
+        guard let fontPath = Bundle(for: WeatherIconFont.self).path(forResource: name, ofType: "ttf") else {
             return
         }
         
@@ -59,16 +73,16 @@ public final class IconFont {
         CTFontManagerRegisterGraphicsFont(font, &error) 
     }
     
-    private static func stringForIcon(_ icon : FontIcon) -> String? {
-        var rawIcon = icon.rawValue;
-        let xPtr = withUnsafeMutablePointer(to: &rawIcon, { $0 })
+    private static func stringForIcon(_ unicode : WeatherUnicode) -> String? {
+        var rawUnicode = unicode.rawValue;
+        let xPtr = withUnsafeMutablePointer(to: &rawUnicode, { $0 })
         return String(bytesNoCopy: xPtr, length:MemoryLayout<UInt32>.size, encoding: String.Encoding.utf32LittleEndian, freeWhenDone: false)
     }
     
-    public static func string(fromIcon icon: FontIcon, size: CGFloat = CGFloat(12), color: UIColor?) -> NSAttributedString? {
+    public static func string(fromUnicode unicode: WeatherUnicode, size: CGFloat = CGFloat(12), color: UIColor?) -> NSAttributedString? {
         
-        guard let font = IconFont.iconFont(size) ,
-            let string = stringForIcon(icon) else { return nil }
+        guard let font = WeatherIconFont.iconFont(size) ,
+            let string = stringForIcon(unicode) else { return nil }
         
         var attributes = [String : AnyObject]()
         attributes[NSFontAttributeName] = font
@@ -79,13 +93,13 @@ public final class IconFont {
         return NSAttributedString(string: string, attributes: attributes)
     }
     
-    public static func image(fromIcon icon: FontIcon, size: CGFloat, color: UIColor?) -> UIImage? {
+    public static func image(fromUnicode unicode: WeatherUnicode, size: CGFloat, color: UIColor?) -> UIImage? {
         
         if size == 0.0 {
             return nil
         }
         
-        guard let symbol = string(fromIcon: icon, size: size, color: color) else { return nil }
+        guard let symbol = string(fromUnicode: unicode, size: size, color: color) else { return nil }
         
         let mutableSymbol = NSMutableAttributedString(attributedString: symbol)
         let rect = CGRect(x: 0, y: 0, width: size, height: size)

@@ -11,10 +11,11 @@ import UIKit
 
 class ForecastPageViewController: UIPageViewController, ForecastPageViewModelDelegate  {
   
-    var collectionView: UICollectionView!
-    var city: City?
+    var collectionView: UICollectionView! 
+    var viewModel: ForecastPageViewModel?
     var forecasts:[Forecast] = []
     var cellIndex = 0
+    var lastIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +45,7 @@ class ForecastPageViewController: UIPageViewController, ForecastPageViewModelDel
         // Do any additional setup after loading the view, typically from a nib.
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 15
-        layout.itemSize = CGSize(width: 120, height: 120)
+        layout.itemSize = CGSize(width: 120, height: 50)
         layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         
         collectionView = UICollectionView(frame:CGRect(x: 0, y: 60, width: self.view.frame.width, height: 50), collectionViewLayout: layout)
@@ -61,14 +62,10 @@ class ForecastPageViewController: UIPageViewController, ForecastPageViewModelDel
     private func initialLoad() {
         self.setViewControllers([getViewControllerAtIndex(index: 0)] as [UIViewController],
                                 direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
-        
-        let cityName = (city?.name)!
-        let cityState = (city?.state)!
-        navigationItem.title = "\(cityName) - \(cityState)"
-        
-        let viewModel = ForecastPageViewModel(city: city!, delegate: self)
-        
-        viewModel.getForecasts()
+        if let viewModel = viewModel {
+            navigationItem.title = "\(viewModel.city.name!) - \(viewModel.city.state!)"
+            viewModel.getForecasts()
+        }
     }
     
     private func setupPageView() {
@@ -93,18 +90,17 @@ extension ForecastPageViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool,
                             previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        
-        if let vc = previousViewControllers[0] as? ForecastViewController {
-            if let viewModel = vc.viewModel {
-                self.collectionView.cellForItem(at: IndexPath(item: viewModel.pageIndex, section: 0))?.subviews.forEach({ (view) in
-                    if let label = view as? UILabel {
-                        setupPagerViewLabel(label, color: UIColor.black, fontSize: 15)
-                    }
-                })
-            }
-        }
-        
         if completed {
+            if let vc = previousViewControllers[0] as? ForecastViewController {
+                if let viewModel = vc.viewModel {
+                    self.collectionView.cellForItem(at: IndexPath(item: viewModel.pageIndex, section: 0))?.subviews.forEach({ (view) in
+                        if let label = view as? UILabel {
+                            setupPagerViewLabel(label, color: UIColor.black, fontSize: 15)
+                        }
+                    })
+                }
+            }
+            
             self.collectionView.selectItem(at: IndexPath(item: self.cellIndex, section: 0), animated: true,
                                            scrollPosition: UICollectionViewScrollPosition.centeredHorizontally)
             self.collectionView.cellForItem(at: IndexPath(item: self.cellIndex, section: 0))?.subviews.forEach({ (view) in
