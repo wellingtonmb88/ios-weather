@@ -17,14 +17,15 @@ struct ForecastPageViewModel {
     
     let delegate : ForecastPageViewModelDelegate
     let city: City
-     
+    let weatherApi = WeatherApi()
+    
     init(city: City, delegate: ForecastPageViewModelDelegate){
         self.delegate = delegate
         self.city = city
     }
     
     public func getForecasts(){
-        WeatherApi.sharedInstance.requestForecasts(city:city.name!, state: city.state!) {
+        weatherApi.requestForecasts(city:city.name!, state: city.state!) {
             (forecasts, error) in
             
             if let netError = error as? NetError{
@@ -36,5 +37,9 @@ struct ForecastPageViewModel {
                 self.delegate.update(withForecasts: forecasts!)
             }
         }
+    }
+    
+    public func cancelForecastRequest(){
+        weatherApi.cancel()
     }
 }

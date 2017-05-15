@@ -39,6 +39,7 @@
 		131EEBF31E61045000723168 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131EEBF21E61045000723168 /* NetworkService.swift */; };
 		1327E85E1E58B3370038D14E /* CitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1327E85D1E58B3370038D14E /* CitiesTableViewController.swift */; };
 		1327E8601E58B3C40038D14E /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1327E85F1E58B3C40038D14E /* ForecastViewController.swift */; };
+		1334297D1EC29AEB001B3F2C /* CityTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1334297C1EC29AEB001B3F2C /* CityTableViewCell.xib */; };
 		133A20F01E5BD06100DC61A0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133A20EF1E5BD06100DC61A0 /* MapKit.framework */; };
 		136986621E5E77D5008E2FEA /* LocationSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136986611E5E77D5008E2FEA /* LocationSearchTableViewController.swift */; };
 		137E51191EB025CC0078616F /* CityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137E51181EB025CC0078616F /* CityViewModel.swift */; };
@@ -95,6 +96,7 @@
 		131EEBF21E61045000723168 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		1327E85D1E58B3370038D14E /* CitiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitiesTableViewController.swift; sourceTree = "<group>"; };
 		1327E85F1E58B3C40038D14E /* ForecastViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
+		1334297C1EC29AEB001B3F2C /* CityTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CityTableViewCell.xib; sourceTree = "<group>"; };
 		133A20EF1E5BD06100DC61A0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		136986611E5E77D5008E2FEA /* LocationSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTableViewController.swift; sourceTree = "<group>"; };
 		137E51181EB025CC0078616F /* CityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityViewModel.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 			children = (
 				131C70B21E57B1E000438175 /* Main.storyboard */,
 				131C70BA1E57B1E000438175 /* LaunchScreen.storyboard */,
+				1334297C1EC29AEB001B3F2C /* CityTableViewCell.xib */,
 			);
 			name = Storyboard;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				13AE74711E6791FD0030AA1F /* tropical_storm.gif in Resources */,
 				1300E6EB1E6A317F0059F7D0 /* hail.gif in Resources */,
 				131C70BC1E57B1E000438175 /* LaunchScreen.storyboard in Resources */,
+				1334297D1EC29AEB001B3F2C /* CityTableViewCell.xib in Resources */,
 				131C70B91E57B1E000438175 /* Assets.xcassets in Resources */,
 				131C70B41E57B1E000438175 /* Main.storyboard in Resources */,
 				1300E6ED1E6A317F0059F7D0 /* drizzle.gif in Resources */,

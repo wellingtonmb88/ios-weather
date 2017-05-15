@@ -15,6 +15,7 @@ struct City {
     var country: String?
     var latitude: Double?
     var longitude: Double?
+    var forecasts: [Forecast]?
     
     init(name: String, state: String,
          country: String, latitude: Double, longitude: Double){

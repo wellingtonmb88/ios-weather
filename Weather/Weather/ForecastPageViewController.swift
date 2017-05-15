@@ -19,8 +19,8 @@ class ForecastPageViewController: UIPageViewController, ForecastPageViewModelDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initialLoad()
         setupCollectionView()
+        initialLoad()
     }
     
     func update(withForecasts forecasts: [Forecast]) {
@@ -64,7 +64,13 @@ class ForecastPageViewController: UIPageViewController, ForecastPageViewModelDel
                                 direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         if let viewModel = viewModel {
             navigationItem.title = "\(viewModel.city.name!) - \(viewModel.city.state!)"
-            viewModel.getForecasts()
+            
+            if let forecast = viewModel.city.forecasts {
+                update(withForecasts: forecast)
+            } else {
+                viewModel.getForecasts()
+            }
+            
         }
     }
     

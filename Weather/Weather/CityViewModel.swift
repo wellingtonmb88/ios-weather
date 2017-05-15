@@ -10,18 +10,37 @@ import Foundation
 import CoreData
 
 protocol CityViewModelDelegate {
-    func update(withCities cities: [City])
+    func update(withCities cities: [City]) 
 }
 
 struct CityViewModel { 
 
     let persistence = PersistenceService.sharedInstance
     let delegate : CityViewModelDelegate
+    let weatherApi = WeatherApi()
     
     init(delegate: CityViewModelDelegate){
         self.delegate = delegate
     }
     
+    public func getForecasts(withCityName cityName: String, cityState: String,
+                             callBack: @escaping ([Forecast]?, NetError?)->()) {
+        
+        weatherApi.requestForecasts(city:cityName, state: cityState) {
+            (forecasts, error) in
+            
+            if let netError = error as? NetError{
+                callBack(nil, netError)
+                return
+            }
+            callBack(forecasts, nil)
+        }
+    }
+    
+    public func cancelForecastRequest(){
+        weatherApi.cancel()
+    }
+
     public func getCities(){
         let moc = persistence.getContext()
         moc.performAndWait {

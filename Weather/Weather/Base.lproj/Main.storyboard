@@ -17,29 +17,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EJK-o8-PfK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cityCellIdentifier" textLabel="17L-l1-0h1" style="IBUITableViewCellStyleDefault" id="66g-0J-W9h" customClass="CityTableViewCell" customModule="Weather" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="66g-0J-W9h" id="DEd-kr-1FD">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="17L-l1-0h1">
-                                            <rect key="frame" x="15" y="0.0" width="384" height="43.666666666666664"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="nnI-2A-M0r" kind="show" identifier="forecastSegue" id="Iyt-J6-yX7"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <sections/>
                         <connections>
                             <outlet property="dataSource" destination="xXI-Iy-bT2" id="GYJ-90-AD0"/>
@@ -150,7 +128,7 @@
             <objects>
                 <navigationController id="KzR-eN-gNq" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Cities" id="70X-op-E2L"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="pt4-gu-4sX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pt4-gu-4sX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -165,13 +143,13 @@
         <!--Forecast-->
         <scene sceneID="s59-Nc-zwo">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="nnI-2A-M0r" customClass="ForecastPageViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="ForecastPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="nnI-2A-M0r" customClass="ForecastPageViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Forecast" id="uf1-BG-ehv"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hUi-pm-lnA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="153" y="488"/>
+            <point key="canvasLocation" x="128" y="487"/>
         </scene>
         <!--Loading View Controller-->
         <scene sceneID="bIC-LA-4k4">
@@ -208,13 +186,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="dQz-xl-cYh" firstAttribute="top" secondItem="McH-z6-otm" secondAttribute="bottom" id="2PW-Dq-dA7"/>
                             <constraint firstAttribute="trailing" secondItem="Nio-aZ-rrU" secondAttribute="trailing" id="3dt-JC-f8L"/>
                             <constraint firstItem="McH-z6-otm" firstAttribute="leading" secondItem="K8c-Ku-FUf" secondAttribute="leading" id="69a-KI-e9p"/>
                             <constraint firstItem="Nio-aZ-rrU" firstAttribute="leading" secondItem="K8c-Ku-FUf" secondAttribute="leading" id="7Qy-aW-uzx"/>
-                            <constraint firstItem="dQz-xl-cYh" firstAttribute="top" secondItem="McH-z6-otm" secondAttribute="bottom" id="JYx-Ga-zCZ"/>
+                            <constraint firstItem="dQz-xl-cYh" firstAttribute="top" secondItem="Nio-aZ-rrU" secondAttribute="bottom" id="AFj-gh-mgQ"/>
                             <constraint firstAttribute="trailing" secondItem="McH-z6-otm" secondAttribute="trailing" id="NvH-my-Wfa"/>
                             <constraint firstItem="McH-z6-otm" firstAttribute="top" secondItem="K8c-Ku-FUf" secondAttribute="top" id="hCU-6z-Njk"/>
-                            <constraint firstItem="dQz-xl-cYh" firstAttribute="top" secondItem="Nio-aZ-rrU" secondAttribute="bottom" id="wkd-1f-G2Q"/>
                             <constraint firstItem="Nio-aZ-rrU" firstAttribute="top" secondItem="K8c-Ku-FUf" secondAttribute="top" id="zhW-rd-wfm"/>
                         </constraints>
                     </view>

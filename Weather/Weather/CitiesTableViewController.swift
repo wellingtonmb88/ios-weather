@@ -14,33 +14,60 @@ class CitiesTableViewController: UITableViewController, CityViewModelDelegate {
     
     var cities: [City] = []
     var cityViewModel : CityViewModel?
+    var forecastLoaded: Bool = false
     
     override func viewDidLoad() {
-        super.viewDidLoad() 
-        cityTableView.register(CityTableViewCell.self, forCellReuseIdentifier: "cityCellIdentifier")
+        super.viewDidLoad()
+        cityTableView.register(UINib(nibName: "CityTableViewCell", bundle: nil), forCellReuseIdentifier: "cityCellIdentifier")
         cityViewModel = CityViewModel(delegate: self)
+        cityTableView.rowHeight = UITableViewAutomaticDimension
+        cityTableView.estimatedRowHeight = 50.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         cityViewModel?.getCities()
-        cityTableView.reloadData()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "forecastSegue" {
-            if let destinationVC = segue.destination as? ForecastPageViewController {
-                if let indexPath = self.tableView.indexPathForSelectedRow {
-                    destinationVC.viewModel = ForecastPageViewModel(city: cities[indexPath.row], delegate: destinationVC)
-                }
-            }
-        }
     }
     
     // MARK: - CityViewModelDelegate
-    
     func update(withCities cities: [City]){
+        if self.cities.count != cities.count {
+            forecastLoaded = false
+        }
         self.cities = cities
+    
+        if forecastLoaded {
+            self.updateTable(cities: self.cities)
+        } else {
+            getForecast()
+        }
+    }
+    
+    func updateTable(cities: [City]) {
+        DispatchQueue.main.async {
+            self.cities = cities
+            self.cityTableView.reloadData()
+        }
+    }
+    
+    func getForecast() {
+        let weatherApi = WeatherApi()
+        weatherApi.bulkRequestForecasts(cities: cities, downloadCallback: { result in
+            
+            guard let _result = result else {
+                debugPrint("Something went wrong")
+                return
+            }
+            
+            for (index, city) in self.cities.enumerated() {
+                let url = weatherApi.getURLFormatted(city: city)
+                if let forecasts = _result[url] {
+                    self.cities[index].forecasts = forecasts
+                }
+            }
+            self.forecastLoaded = true
+            self.updateTable(cities: self.cities)
+        })
     }
 }
 
@@ -67,14 +94,38 @@ extension CitiesTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)-> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cityCellIdentifier", for: indexPath) as! CityTableViewCell
-        cell.configure(withCity: cities[indexPath.row])
+        
+        let city = cities[indexPath.row]
+        
+        if let forecast = city.forecasts?[0] {
+            let viewModel = ForecastViewModel(pageIndex: 0, forecast: forecast)
+            cell.configure(withCity: city, viewModel: viewModel)
+        } else {
+            forecastLoaded = false
+            cell.configure(withCity: city, viewModel: nil)
+        } 
         return cell
-    } 
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath){
+//        cityViewModel?.cancelForecastRequest()
+    }
+    
+    func showMessage(withError error: NetError) {
+        let alert = UIAlertController(title: "Oooops!", message: "\(error.description)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default) {[weak self] action  in
+            let _ = self?.navigationController?.popViewController(animated: true)
+        })
+        self.present(alert, animated: true)
+    }
+     
 }
 
 // MARK: - UITableViewDelegate
 extension CitiesTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "forecastSegue", sender: nil)
+        let forecastPageViewController = self.storyboard?.instantiateViewController(withIdentifier: "ForecastPageViewController") as! ForecastPageViewController
+        forecastPageViewController.viewModel = ForecastPageViewModel(city: cities[indexPath.row], delegate: forecastPageViewController)
+        self.navigationController?.pushViewController(forecastPageViewController, animated: true)
     }
 }
