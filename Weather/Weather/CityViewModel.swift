@@ -24,22 +24,37 @@ struct CityViewModel {
     }
     
     public func getForecasts(withCityName cityName: String, cityState: String,
-                             callBack: @escaping ([Forecast]?, NetError?)->()) {
+                             callback: @escaping ([Forecast]?, NetError?)->()) {
         
         weatherApi.requestForecasts(city:cityName, state: cityState) {
             (forecasts, error) in
             
             if let netError = error as? NetError{
-                callBack(nil, netError)
+                callback(nil, netError)
                 return
             }
-            callBack(forecasts, nil)
+            callback(forecasts, nil)
         }
     }
     
-    public func cancelForecastRequest(){
-        weatherApi.cancel()
-    }
+    public func bulkRequestForecasts(cities: [City], callback: @escaping ([City])->()) {
+        var _cities = cities
+        weatherApi.bulkRequestForecasts(cities: cities, downloadBulkCompleted: { result in
+            
+            guard let _result = result else {
+                debugPrint("Something went wrong")
+                return
+            }
+            
+            for (index, city) in cities.enumerated() {
+                let url = self.weatherApi.getURLFormatted(city: city)
+                if let forecasts = _result[url] {
+                    _cities[index].forecasts = forecasts
+                }
+            }
+            callback(_cities)
+        })
+    } 
 
     public func getCities(){
         let moc = persistence.getContext()
@@ -57,7 +72,7 @@ struct CityViewModel {
                 
                 self.delegate.update(withCities:cities)
             } catch let error as NSError {
-                print("Could not fetch. \(error), \(error.userInfo)")
+                debugPrint("Could not fetch. \(error), \(error.userInfo)")
             }
         }
     }
@@ -81,10 +96,10 @@ struct CityViewModel {
             
             do {
                 let citiesMO = try moc.fetch(fetchRequest)
-                print("Core Data fetched!")
+                debugPrint("Core Data fetched!")
                 cityMO = citiesMO[0]
             } catch let error as NSError  {
-                print("Could not fetch \(error), \(error.userInfo)")
+                debugPrint("Could not fetch \(error), \(error.userInfo)")
             }
         }
         return cityMO

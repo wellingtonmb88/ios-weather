@@ -38,8 +38,4 @@ struct ForecastPageViewModel {
             }
         }
     }
-    
-    public func cancelForecastRequest(){
-        weatherApi.cancel()
-    }
 }

@@ -19,10 +19,11 @@ class ForecastPageViewController: UIPageViewController, ForecastPageViewModelDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.automaticallyAdjustsScrollViewInsets = false
         setupCollectionView()
         initialLoad()
     }
-    
+     
     func update(withForecasts forecasts: [Forecast]) {
         self.forecasts = forecasts
         self.setupPageView()
@@ -30,9 +31,6 @@ class ForecastPageViewController: UIPageViewController, ForecastPageViewModelDel
     
     func showMessage(withError error: NetError) {
         let alert = UIAlertController(title: "Oooops!", message: "\(error.description)", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default) {[weak self] action  in
-            let _ = self?.navigationController?.popViewController(animated: true)
-        })
         self.present(alert, animated: true)
     }
     
@@ -60,14 +58,14 @@ class ForecastPageViewController: UIPageViewController, ForecastPageViewModelDel
     }
     
     private func initialLoad() {
-        self.setViewControllers([getViewControllerAtIndex(index: 0)] as [UIViewController],
-                                direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         if let viewModel = viewModel {
             navigationItem.title = "\(viewModel.city.name!) - \(viewModel.city.state!)"
-            
+        
             if let forecast = viewModel.city.forecasts {
                 update(withForecasts: forecast)
             } else {
+                self.setViewControllers([getViewControllerAtIndex(index: 0)] as [UIViewController],
+                                        direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
                 viewModel.getForecasts()
             }
             
@@ -191,8 +189,14 @@ extension ForecastPageViewController: UICollectionViewDelegateFlowLayout, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! ForecastDateCollectionViewCell 
-        cell.configure(withDate: self.forecasts[indexPath.row].date)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! ForecastDateCollectionViewCell
+        if indexPath.row == 0 {
+            cell.configure(withDate: "Today")
+        } else if indexPath.row == 1 {
+            cell.configure(withDate: "Tomorrow")
+        } else {
+            cell.configure(withDate: self.forecasts[indexPath.row].day)
+        }
         return cell
     }
     

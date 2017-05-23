@@ -41,10 +41,10 @@ struct Parser {
                 return json
             }
         } catch let error as NSError {
-            print(error.description)
+            debugPrint(error.description)
         }
         
-        print("cannot serialize data returned in especified format")
+        debugPrint("cannot serialize data returned in especified format")
         return nil
     }
 }
@@ -57,6 +57,7 @@ class NetworkService: NSObject, URLSessionDataDelegate {
     
     private var dataTask : URLSessionDataTask?
     private var delegate: NetworkServiceDelegate?
+    private let group = DispatchGroup()
     
     init(delegate: NetworkServiceDelegate){
         self.delegate = delegate
@@ -65,18 +66,13 @@ class NetworkService: NSObject, URLSessionDataDelegate {
     func requestData(request:NSMutableURLRequest) {
         let configuration = URLSessionConfiguration.background(withIdentifier: (request.url?.absoluteString)!)
         let session = URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue())
-        group.enter()
         dataTask = session.dataTask(with: request as URLRequest)
         dataTask?.resume()
     }
     
-    let semaphore = DispatchSemaphore(value: 0)
-    
-    let group = DispatchGroup()
-    
     func bulkRequestData(requests: [NSMutableURLRequest], downloadCallback: @escaping (Bool)->()) {
+        let session = URLSession.shared
         for request in requests {
-            let session = URLSession.shared
             group.enter()
             session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) in
                 debugPrint("session.dataTask")
@@ -101,8 +97,15 @@ class NetworkService: NSObject, URLSessionDataDelegate {
         let url = dataTask.currentRequest?.url?.absoluteString
         dataTask.cancel()
         session.finishTasksAndInvalidate()
-        group.leave()
         update(url: url!, data: data, response: dataTask.response, error: dataTask.error)
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        debugPrint("urlSession: didCompleteWithError")
+        let url = task.currentRequest?.url?.absoluteString
+        task.cancel()
+        session.finishTasksAndInvalidate()
+        update(url: url!, data: nil, response: task.response, error: error)
     }
     
     private func update(url: String, data: Data?, response: URLResponse?, error: Error?) {

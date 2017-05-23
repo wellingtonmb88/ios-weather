@@ -14,7 +14,6 @@ class ForecastViewController: UIViewController {
     @IBOutlet weak var weather: UILabel!
     @IBOutlet weak var tempMin: UILabel!
     @IBOutlet weak var tempMax: UILabel!
-    @IBOutlet weak var weekDay: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var bgGIF: UIImageView!
     
@@ -24,9 +23,8 @@ class ForecastViewController: UIViewController {
         super.viewDidLoad()
         if let viewModel = self.viewModel{
             date.text = viewModel.forecast.date
-            weekDay.text = viewModel.forecast.day
-            tempMax.text = viewModel.forecast.high
-            tempMin.text = viewModel.forecast.low
+            tempMax.text = viewModel.forecast.high + "º"
+            tempMin.text = viewModel.forecast.low + "º"
             let weatherName = viewModel.forecast.text
             
             weather.attributedText = getFont(fromUnicode: viewModel.getWeatherUnicode(fromWeather: weatherName))
@@ -41,6 +39,6 @@ class ForecastViewController: UIViewController {
         guard let weatherUnicode = unicode else {
             return nil
         }
-        return WeatherIconFont.string(fromUnicode: weatherUnicode, size: 70.0, color: UIColor.blue)
+        return WeatherIconFont.string(fromUnicode: weatherUnicode, size: 100.0, color: UIColor.blue)
     }
 }

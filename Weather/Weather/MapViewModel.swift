@@ -34,9 +34,9 @@ struct MapViewModel {
             
             do {
                 try moc.save()
-                print("Core Data saved!")
+                debugPrint("Core Data saved!")
             } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
+                debugPrint("Could not save. \(error), \(error.userInfo)")
             }
         }
     }

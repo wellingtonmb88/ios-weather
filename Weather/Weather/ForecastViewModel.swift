@@ -37,8 +37,12 @@ struct ForecastViewModel {
                 return WeatherUnicode.cloudy
             case Weather.thunderstorms.rawValue:
                 return WeatherUnicode.thunderstorm
+            case Weather.severe_thunderstorms.rawValue:
+                return WeatherUnicode.thunderstorm
             case Weather.tornado.rawValue:
                 return WeatherUnicode.tornado
+            case Weather.showers.rawValue:
+                return WeatherUnicode.showers
             default:
                 return nil
         }
@@ -55,6 +59,7 @@ struct ForecastViewModel {
         name = name.replacingOccurrences(of: "heavy_", with: "")
         name = name.replacingOccurrences(of: "mostly_", with: "")
         name = name.replacingOccurrences(of: "mixed_", with: "")
+        name = name.replacingOccurrences(of: "thundershowers", with: "severe_thunderstorms")
         return name
     }
 }

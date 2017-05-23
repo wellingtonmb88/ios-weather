@@ -9,7 +9,8 @@
 import Foundation
 import CoreData
 
-struct City {
+struct City  {
+    
     var name: String?
     var state: String?
     var country: String?
@@ -32,5 +33,5 @@ struct City {
         self.country = mo.value(forKeyPath: "country") as? String
         self.latitude = mo.value(forKeyPath: "latitude") as? Double
         self.longitude = mo.value(forKeyPath: "longitude") as? Double
-    }
+    } 
 }

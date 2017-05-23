@@ -10,11 +10,14 @@ import Foundation
 import UIKit
 
 class CitiesTableViewController: UITableViewController, CityViewModelDelegate {
+    
     @IBOutlet weak var cityTableView: UITableView!
     
     var cities: [City] = []
     var cityViewModel : CityViewModel?
     var forecastLoaded: Bool = false
+    var shouldReloadForecast: Bool = false
+    var citiesToReload: [City] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,40 +37,36 @@ class CitiesTableViewController: UITableViewController, CityViewModelDelegate {
         if self.cities.count != cities.count {
             forecastLoaded = false
         }
-        self.cities = cities
     
-        if forecastLoaded {
-            self.updateTable(cities: self.cities)
-        } else {
-            getForecast()
+        if shouldReloadForecast && forecastLoaded {
+            getForecast(cities: self.citiesToReload)
+        } else if !forecastLoaded {
+            self.cities = cities
+            getForecast(cities: cities)
         }
     }
     
     func updateTable(cities: [City]) {
+        self.shouldReloadForecast = false
+        self.forecastLoaded = true
+        self.citiesToReload.removeAll()
+        self.cities = cities
         DispatchQueue.main.async {
-            self.cities = cities
             self.cityTableView.reloadData()
         }
     }
     
-    func getForecast() {
-        let weatherApi = WeatherApi()
-        weatherApi.bulkRequestForecasts(cities: cities, downloadCallback: { result in
-            
-            guard let _result = result else {
-                debugPrint("Something went wrong")
-                return
-            }
-            
-            for (index, city) in self.cities.enumerated() {
-                let url = weatherApi.getURLFormatted(city: city)
-                if let forecasts = _result[url] {
-                    self.cities[index].forecasts = forecasts
+    func getForecast(cities: [City]) {
+        cityViewModel?.bulkRequestForecasts(cities: cities, callback: { (_cities) in
+            for city in _cities {
+                for (index, _city) in self.cities.enumerated() {
+                    if _city.latitude == city.latitude {
+                        self.cities[index].forecasts = city.forecasts
+                    }
                 }
-            }
-            self.forecastLoaded = true
+            } 
             self.updateTable(cities: self.cities)
-        })
+        }) 
     }
 }
 
@@ -99,16 +98,15 @@ extension CitiesTableViewController {
         
         if let forecast = city.forecasts?[0] {
             let viewModel = ForecastViewModel(pageIndex: 0, forecast: forecast)
-            cell.configure(withCity: city, viewModel: viewModel)
+            cell.configure(withCity: city, viewModel: viewModel, isLoading: !forecastLoaded)
         } else {
-            forecastLoaded = false
-            cell.configure(withCity: city, viewModel: nil)
+            if forecastLoaded {
+                shouldReloadForecast = true
+                citiesToReload.append(city)
+            }
+            cell.configure(withCity: city, viewModel: nil, isLoading: !forecastLoaded)
         } 
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath){
-//        cityViewModel?.cancelForecastRequest()
     }
     
     func showMessage(withError error: NetError) {

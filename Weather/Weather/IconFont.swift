@@ -28,6 +28,7 @@ public enum WeatherUnicode: UInt32 {
     case snow = 0xF017
     case sleet = 0xF01B
     case wind = 0xF050
+    case showers = 0xF015
     case fog = 0xF014
     case cloudy = 0xF013
     case thunderstorm = 0xF016
@@ -42,8 +43,10 @@ public enum Weather: String {
     case sleet
     case wind
     case fog
+    case showers
     case cloudy
     case thunderstorms
+    case severe_thunderstorms
     case tornado
 }
 

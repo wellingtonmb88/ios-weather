@@ -18,6 +18,14 @@ struct Forecast {
     let high: String
     let low: String
     let text: String
+    
+    init(date: String, day: String, high: String, low: String, text: String){
+        self.date = date
+        self.day = day
+        self.high = high
+        self.low = low
+        self.text = text
+    }
 }
 
 extension Forecast: JSONParselable {
@@ -34,6 +42,6 @@ extension Forecast: JSONParselable {
         
         let forecast = Forecast(date: date, day: day, high: high, low: low, text: text)
         
-        return forecast
+        return forecast 
     }
 }
