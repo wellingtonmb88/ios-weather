@@ -39,6 +39,6 @@ class ForecastViewController: UIViewController {
         guard let weatherUnicode = unicode else {
             return nil
         }
-        return WeatherIconFont.string(fromUnicode: weatherUnicode, size: 100.0, color: UIColor.blue)
+        return WeatherIconFont.string(fromUnicode: weatherUnicode, size: 100.0, color: UIColor.white)
     }
 }

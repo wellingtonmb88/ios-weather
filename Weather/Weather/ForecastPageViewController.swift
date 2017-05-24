@@ -31,6 +31,7 @@ class ForecastPageViewController: UIPageViewController, ForecastPageViewModelDel
     
     func showMessage(withError error: NetError) {
         let alert = UIAlertController(title: "Oooops!", message: "\(error.description)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default))
         self.present(alert, animated: true)
     }
     
