@@ -18,11 +18,15 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var annotations:[MKAnnotation] = []
     var resultSearchController:UISearchController?
     
+    let reuseIdentifierPinAnnotation = "IdentifierPinAnnotation"
+    let imageNamePinAnnotation = "building"
+    
     var cityState: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         saveButton.isEnabled = false
+        mapView.delegate = self
         setupLongPressGesture()
         setupSearchController()
     }
@@ -100,8 +104,6 @@ extension MapViewController {
             annotations = []
             let touchPoint = gestureRecognizer.location(in: mapView)
             let newCoordinates = mapView.convert(touchPoint, toCoordinateFrom: mapView)
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = newCoordinates
             
             let location = CLLocation(latitude: newCoordinates.latitude, longitude: newCoordinates.longitude)
             CLGeocoder().reverseGeocodeLocation(location, completionHandler: {
@@ -120,14 +122,39 @@ extension MapViewController {
                         return
                 }
                 
-                annotation.title = city
-                annotation.subtitle = country
+                let pointAnnotation = CustomPointAnnotation()
+                pointAnnotation.pinCustomImageName = self.imageNamePinAnnotation
+                pointAnnotation.coordinate = location.coordinate
+                pointAnnotation.title = city
+                pointAnnotation.subtitle = country
+                
+                let pinAnnotationView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: self.reuseIdentifierPinAnnotation)
+                self.mapView.addAnnotation(pinAnnotationView.annotation!)
+                
                 self.cityState = state
-                self.mapView.addAnnotation(annotation)
-                self.annotations.append(annotation)
+                self.annotations.append(pointAnnotation)
                 self.saveButton.isEnabled = true
             })
         }
+    }
+}
+
+extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: self.reuseIdentifierPinAnnotation)
+        
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: self.reuseIdentifierPinAnnotation)
+            annotationView?.canShowCallout = true
+        } else {
+            annotationView?.annotation = annotation
+        }
+        
+        let customPointAnnotation = annotation as! CustomPointAnnotation
+        annotationView?.image = UIImage(named: customPointAnnotation.pinCustomImageName)
+        
+        return annotationView
     }
 }
 
@@ -135,8 +162,6 @@ extension MapViewController: HandleLocationSearch {
     func dropPinZoomIn(placemark:MKPlacemark){ 
         // clear existing pins
         mapView.removeAnnotations(mapView.annotations)
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = placemark.coordinate
         
         guard let city = placemark.locality,
             let state = placemark.administrativeArea,
@@ -144,15 +169,21 @@ extension MapViewController: HandleLocationSearch {
                 return
         }
         
-        annotation.title = city
-        annotation.subtitle = country
+        let pointAnnotation = CustomPointAnnotation()
+        pointAnnotation.pinCustomImageName = self.imageNamePinAnnotation
+        pointAnnotation.coordinate = placemark.coordinate
+        pointAnnotation.title = city
+        pointAnnotation.subtitle = country
+        
+        let pinAnnotationView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: self.reuseIdentifierPinAnnotation)
+        
         self.cityState = state
         
-        mapView.addAnnotation(annotation)
+        self.mapView.addAnnotation(pinAnnotationView.annotation!)
         let span = MKCoordinateSpanMake(0.05, 0.05)
         let region = MKCoordinateRegionMake(placemark.coordinate, span)
-        mapView.setRegion(region, animated: true) 
-        self.annotations.append(annotation)
+        mapView.setRegion(region, animated: true)
+        self.annotations.append(pointAnnotation)
         self.saveButton.isEnabled = true
     }
 }
